@@ -31,6 +31,11 @@ $ docker-compose up -d
 $ docker-compose exec php composer install 
 ``` 
 
+- Execute migrations with:
+```sh
+$ docker-compose exec php ./bin/console doctrine:migrations:migrate --no-interaction
+```
+
 Contributors
 ============
 
