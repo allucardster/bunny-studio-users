@@ -1,9 +1,15 @@
 {
+    "acelaya/doctrine-enum-type": {
+        "version": "v2.4.0"
+    },
     "brick/math": {
         "version": "0.9.1"
     },
     "composer/package-versions-deprecated": {
         "version": "1.11.99.1"
+    },
+    "danaki/doctrine-enum-type-bundle": {
+        "version": "0.2.1"
     },
     "doctrine/annotations": {
         "version": "1.0",
@@ -109,6 +115,9 @@
     },
     "laminas/laminas-zendframework-bridge": {
         "version": "1.1.1"
+    },
+    "myclabs/php-enum": {
+        "version": "1.7.7"
     },
     "ocramius/proxy-manager": {
         "version": "2.10.0"
