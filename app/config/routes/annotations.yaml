@@ -1,6 +1,14 @@
 controllers:
     resource: ../../src/Controller/
     type: annotation
+    prefix: /
+
+api:
+    resource: ../../src/Controller/Api
+    type: annotation
+    prefix: /api/web
+    defaults:
+        _format: json
 
 kernel:
     resource: ../../src/Kernel.php
