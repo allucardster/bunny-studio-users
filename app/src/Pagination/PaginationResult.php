@@ -25,16 +25,23 @@ class PaginationResult
     private int $perPage;
 
     /**
+     * @var int
+     */
+    private int $page;
+
+    /**
      * PaginationResult constructor.
      * @param array $results
      * @param int $total
      * @param int $perPage
+     * @param int $page
      */
-    public function __construct(array $results, int $total, int $perPage)
+    public function __construct(array $results, int $total, int $perPage, int $page)
     {
         $this->results = $results;
         $this->total = $total;
         $this->perPage = $perPage;
+        $this->page = $page;
     }
 
     /**
@@ -83,5 +90,21 @@ class PaginationResult
     public function setPerPage(int $perPage): void
     {
         $this->perPage = $perPage;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPage(): int
+    {
+        return $this->page;
+    }
+
+    /**
+     * @param int $page
+     */
+    public function setPage(int $page): void
+    {
+        $this->page = $page;
     }
 }
