@@ -7,7 +7,7 @@ use JMS\Serializer\Annotation as Serializer;
 /**
  * @Serializer\AccessType("public_method")
  */
-class PaginationResult
+abstract class AbstractPaginationResult
 {
     /**
      * @var array
@@ -30,7 +30,7 @@ class PaginationResult
     private int $page;
 
     /**
-     * PaginationResult constructor.
+     * AbstractPaginationResult constructor.
      * @param array $results
      * @param int $total
      * @param int $perPage
