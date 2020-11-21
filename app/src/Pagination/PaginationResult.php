@@ -2,12 +2,13 @@
 
 namespace App\Pagination;
 
+use Doctrine\ORM\EntityRepository;
 use JMS\Serializer\Annotation as Serializer;
 
 /**
  * @Serializer\AccessType("public_method")
  */
-abstract class AbstractPaginationResult
+class PaginationResult
 {
     /**
      * @var array
@@ -30,7 +31,7 @@ abstract class AbstractPaginationResult
     private int $page;
 
     /**
-     * AbstractPaginationResult constructor.
+     * PaginationResult constructor.
      * @param array $results
      * @param int $total
      * @param int $perPage
@@ -42,6 +43,22 @@ abstract class AbstractPaginationResult
         $this->total = $total;
         $this->perPage = $perPage;
         $this->page = $page;
+    }
+
+    /**
+     * @param EntityRepository $repository
+     * @param PaginationQuery $paginationQuery
+     * @return PaginationResult
+     */
+    public static function createFrom(EntityRepository $repository, PaginationQuery $paginationQuery): PaginationResult
+    {
+        $results = $repository->findBy([], null, $paginationQuery->getLimit(), $paginationQuery->getOffset());
+        $total = count($results);
+        if (0 !== $total) {
+            $total = $repository->count([]);
+        }
+
+        return new self($results, $total, $paginationQuery->getLimit(), $paginationQuery->getPage());
     }
 
     /**
