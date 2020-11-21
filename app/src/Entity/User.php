@@ -4,12 +4,14 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 use Ramsey\Uuid\Doctrine\UuidGenerator;
 use Ramsey\Uuid\UuidInterface;
 
 /**
  * @ORM\Table(name="bsu_user")
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @Serializer\AccessType("public_method")
  */
 class User
 {
@@ -18,6 +20,8 @@ class User
      * @ORM\Column(type="uuid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
+     * @Serializer\Type("string")
+     * @Serializer\ReadOnly()
      *
      * @var UuidInterface
      */
