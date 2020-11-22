@@ -42,7 +42,7 @@ class UserTask
     private UserTaskState $state;
 
     /**
-     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="tasks")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      *
      * @var User

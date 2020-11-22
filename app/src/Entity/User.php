@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
 use Ramsey\Uuid\Doctrine\UuidGenerator;
@@ -35,6 +37,22 @@ class User
     private string $name;
 
     /**
+     * @ORM\OneToMany(targetEntity="UserTask", mappedBy="user", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @Serializer\Groups({"details"})
+     *
+     * @var Collection
+     */
+    private Collection $tasks;
+
+    /**
+     * User constructor.
+     */
+    public function __construct()
+    {
+        $this->tasks = new ArrayCollection();
+    }
+
+    /**
      * @return UuidInterface
      */
     public function getId(): UuidInterface
@@ -64,5 +82,37 @@ class User
     public function setName(string $name): void
     {
         $this->name = $name;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getTasks(): Collection
+    {
+        return $this->tasks;
+    }
+
+    /**
+     * @param Collection $tasks
+     */
+    public function setTasks(Collection $tasks): void
+    {
+        $this->tasks = $tasks;
+    }
+
+    /**
+     * @param UserTask $task
+     */
+    public function addTask(UserTask $task): void
+    {
+        $this->tasks->add($task);
+    }
+
+    /**
+     * @param UserTask $task
+     */
+    public function removeTask(UserTask $task): void
+    {
+        $this->tasks->remove($task);
     }
 }
