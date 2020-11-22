@@ -33,3 +33,7 @@ services:
     App\Serializer\Handler\UuidSerializerHandler:
         tags:
             - { name: jms_serializer.subscribing_handler }
+
+    App\Serializer\Handler\EnumSerializerHandler:
+        tags:
+            - { name: jms_serializer.subscribing_handler }

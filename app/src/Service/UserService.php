@@ -60,6 +60,9 @@ class UserService
     {
         if ($request->getName() !== null) {
             $user->setName($request->getName());
+        }
+
+        if ($request->isDirty()) {
             $this->entityManager->persist($user);
             $this->entityManager->flush();
         }

@@ -8,7 +8,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @Serializer\AccessType("public_method")
  */
-class UpdateUserRequest
+class UpdateUserRequest implements UpdateRequestInterface
 {
     /**
      * @Assert\NotBlank(allowNull=true)
@@ -16,6 +16,18 @@ class UpdateUserRequest
      * @var string|null
      */
     private ?string $name = null;
+
+    /**
+     * @return bool
+     */
+    public function isDirty(): bool
+    {
+        if ($this->getName()) {
+            return true;
+        }
+
+        return false;
+    }
 
     /**
      * @return string|null

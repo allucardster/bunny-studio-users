@@ -2,12 +2,12 @@
 
 namespace App\Controller\Api;
 
-use App\Entity\User;
+use App\Entity\UserTask;
 use App\Pagination\PaginationQuery;
 use App\Pagination\PaginationResult;
-use App\Request\CreateUserRequest;
-use App\Request\UpdateUserRequest;
-use App\Service\UserService;
+use App\Request\CreateUserTaskRequest;
+use App\Request\UpdateUserTaskRequest;
+use App\Service\UserTaskService;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\View\View;
 use JMS\Serializer\Exception\ValidationFailedException;
@@ -16,21 +16,21 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 
 /**
- * @Rest\Route("/user")
+ * @Rest\Route("/user-task")
  */
-class UserController
+class UserTaskController
 {
     /**
      * @Rest\Get("/list")
      * @Rest\View()
      *
      * @param PaginationQuery $paginationQuery
-     * @param UserService $userService
+     * @param UserTaskService $userTaskService
      * @return PaginationResult
      */
-    public function list(PaginationQuery $paginationQuery, UserService $userService): PaginationResult
+    public function list(PaginationQuery $paginationQuery, UserTaskService $userTaskService): PaginationResult
     {
-        return $userService->list($paginationQuery);
+        return $userTaskService->list($paginationQuery);
     }
 
     /**
@@ -38,31 +38,31 @@ class UserController
      *
      * @Sensio\ParamConverter("request", converter="fos_rest.request_body")
      *
-     * @param CreateUserRequest $request
+     * @param CreateUserTaskRequest $request
      * @param ConstraintViolationListInterface $constraintViolationList
-     * @param UserService $userService
+     * @param UserTaskService $userTaskService
      * @return View
      */
     public function create(
-        CreateUserRequest $request,
+        CreateUserTaskRequest $request,
         ConstraintViolationListInterface $constraintViolationList,
-        UserService $userService
+        UserTaskService $userTaskService
     ): View {
         if ($constraintViolationList->count() > 0) {
             return View::create($constraintViolationList, Response::HTTP_BAD_REQUEST);
         }
 
-        return View::create($userService->create($request), Response::HTTP_CREATED);
+        return View::create($userTaskService->create($request), Response::HTTP_CREATED);
     }
 
     /**
      * @Rest\Get("/{id}")
      * @Rest\View()
      *
-     * @param User $user
-     * @return User
+     * @param UserTask $user
+     * @return UserTask
      */
-    public function read(User $user): User
+    public function read(UserTask $user): UserTask
     {
         return $user;
     }
@@ -72,23 +72,23 @@ class UserController
      *
      * @Sensio\ParamConverter("request", converter="fos_rest.request_body")
      *
-     * @param User $user
-     * @param UpdateUserRequest $request
+     * @param UserTask $userTask
+     * @param UpdateUserTaskRequest $request
      * @param ConstraintViolationListInterface $constraintViolationList
-     * @param UserService $userService
+     * @param UserTaskService $userTaskService
      * @return View
      */
     public function update(
-        User $user,
-        UpdateUserRequest $request,
+        UserTask $userTask,
+        UpdateUserTaskRequest $request,
         ConstraintViolationListInterface $constraintViolationList,
-        UserService $userService
+        UserTaskService $userTaskService
     ): View {
         if ($constraintViolationList->count() > 0) {
             return View::create($constraintViolationList, Response::HTTP_BAD_REQUEST);
         }
 
-        $userService->update($user, $request);
+        $userTaskService->update($userTask, $request);
 
         return View::create(null, Response::HTTP_NO_CONTENT);
     }
@@ -96,13 +96,13 @@ class UserController
     /**
      * @Rest\Delete("/{id}")
      *
-     * @param User $user
-     * @param UserService $userService
+     * @param UserTask $userTask
+     * @param UserTaskService $userTaskService
      * @return View
      */
-    public function delete(User $user, UserService $userService): View
+    public function delete(UserTask $userTask, UserTaskService $userTaskService): View
     {
-        $userService->delete($user);
+        $userTaskService->delete($userTask);
 
         return View::create(null, Response::HTTP_NO_CONTENT);
     }
