@@ -64,7 +64,7 @@ class UserTaskService
     public function update(UserTask $userTask, UpdateUserTaskRequest $request): UserTask
     {
         if ($request->getDescription() !== null) {
-            $userTask->setDescription($userTask->getDescription());
+            $userTask->setDescription($request->getDescription());
         }
 
         if ($request->getState() !== null) {
