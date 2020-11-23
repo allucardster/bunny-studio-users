@@ -40,6 +40,8 @@ Documentation
 =============
 
 - [API Documentation](https://documenter.getpostman.com/view/5093068/TVev4QJs)
+- [Micro-service Block Diagram](docs/01.png)
+- [Micro-service Architecture Diagram](docs/02.png)
 
 Live Demo
 =========
