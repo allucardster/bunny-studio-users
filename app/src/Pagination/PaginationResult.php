@@ -48,14 +48,15 @@ class PaginationResult
     /**
      * @param EntityRepository $repository
      * @param PaginationQuery $paginationQuery
+     * @param array $criteria
      * @return PaginationResult
      */
-    public static function createFrom(EntityRepository $repository, PaginationQuery $paginationQuery): PaginationResult
+    public static function createFrom(EntityRepository $repository, PaginationQuery $paginationQuery, array $criteria = []): PaginationResult
     {
-        $results = $repository->findBy([], null, $paginationQuery->getLimit(), $paginationQuery->getOffset());
+        $results = $repository->findBy($criteria, null, $paginationQuery->getLimit(), $paginationQuery->getOffset());
         $total = count($results);
         if (0 !== $total) {
-            $total = $repository->count([]);
+            $total = $repository->count($criteria);
         }
 
         return new self($results, $total, $paginationQuery->getLimit(), $paginationQuery->getPage());

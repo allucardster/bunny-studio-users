@@ -13,13 +13,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 class UpdateUserTaskRequest implements UpdateRequestInterface
 {
     /**
-     * @Assert\Type(User::class)
-     *
-     * @var User|null
-     */
-    private ?User $user = null;
-
-    /**
      * @Assert\Type("string")
      *
      * @var string|null
@@ -38,27 +31,11 @@ class UpdateUserTaskRequest implements UpdateRequestInterface
      */
     public function isDirty(): bool
     {
-        if ($this->user || $this->description || $this->state) {
+        if ($this->description || $this->state) {
             return true;
         }
 
         return false;
-    }
-
-    /**
-     * @return User|null
-     */
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    /**
-     * @param User|null $user
-     */
-    public function setUser(?User $user): void
-    {
-        $this->user = $user;
     }
 
     /**

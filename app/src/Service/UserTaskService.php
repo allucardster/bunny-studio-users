@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\User;
 use App\Entity\UserTask;
 use App\Pagination\PaginationQuery;
 use App\Pagination\PaginationResult;
@@ -28,22 +29,24 @@ class UserTaskService
     }
 
     /**
+     * @param User $user
      * @param PaginationQuery $paginationQuery
      * @return PaginationResult
      */
-    public function list(PaginationQuery $paginationQuery): PaginationResult
+    public function list(User $user, PaginationQuery $paginationQuery): PaginationResult
     {
-        return PaginationResult::createFrom($this->repository, $paginationQuery);
+        return PaginationResult::createFrom($this->repository, $paginationQuery, ['user' => $user]);
     }
 
     /**
+     * @param User $user
      * @param CreateUserTaskRequest $request
      * @return UserTask
      */
-    public function create(CreateUserTaskRequest $request): UserTask
+    public function create(User $user, CreateUserTaskRequest $request): UserTask
     {
         $userTask = new UserTask();
-        $userTask->setUser($request->getUser());
+        $userTask->setUser($user);
         $userTask->setDescription($request->getDescription());
         $userTask->setState($request->getState());
 
@@ -60,10 +63,6 @@ class UserTaskService
      */
     public function update(UserTask $userTask, UpdateUserTaskRequest $request): UserTask
     {
-        if ($request->getUser() !== null) {
-            $userTask->setUser();
-        }
-
         if ($request->getDescription() !== null) {
             $userTask->setDescription($userTask->getDescription());
         }

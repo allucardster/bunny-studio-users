@@ -13,14 +13,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 class CreateUserTaskRequest
 {
     /**
-     * @Assert\NotNull()
-     * @Assert\Type(User::class)
-     *
-     * @var User
-     */
-    private User $user;
-
-    /**
      * @Assert\NotBlank()
      * @Assert\Type("string")
      *
@@ -35,22 +27,6 @@ class CreateUserTaskRequest
      * @var UserTaskState
      */
     private UserTaskState $state;
-
-    /**
-     * @return User
-     */
-    public function getUser(): User
-    {
-        return $this->user;
-    }
-
-    /**
-     * @param User $user
-     */
-    public function setUser(User $user): void
-    {
-        $this->user = $user;
-    }
 
     /**
      * @return string
