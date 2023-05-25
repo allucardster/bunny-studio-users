@@ -49,6 +49,11 @@ class UserTask
      */
     private User $user;
 
+    public function __construct()
+    {
+        $this->state = UserTaskState::TODO();
+    }
+
     /**
      * @return UuidInterface
      */

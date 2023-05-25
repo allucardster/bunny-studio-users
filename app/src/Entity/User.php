@@ -85,7 +85,7 @@ class User
     }
 
     /**
-     * @return Collection
+     * @return Collection|UserTask[]
      */
     public function getTasks(): Collection
     {
@@ -105,6 +105,7 @@ class User
      */
     public function addTask(UserTask $task): void
     {
+        $task->setUser($this);
         $this->tasks->add($task);
     }
 
@@ -113,6 +114,8 @@ class User
      */
     public function removeTask(UserTask $task): void
     {
-        $this->tasks->remove($task);
+        if ($this->tasks->contains($task)) {
+            $this->tasks->removeElement($task);
+        }
     }
 }

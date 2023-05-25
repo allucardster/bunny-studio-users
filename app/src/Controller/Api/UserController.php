@@ -3,22 +3,29 @@
 namespace App\Controller\Api;
 
 use App\Entity\User;
+use App\Form\UserTaskType;
+use App\Form\UserType;
 use App\Pagination\PaginationQuery;
 use App\Pagination\PaginationResult;
 use App\Request\CreateUserRequest;
 use App\Request\UpdateUserRequest;
 use App\Service\UserService;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\EntityManagerInterface;
+use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\View\View;
 use JMS\Serializer\Exception\ValidationFailedException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration as Sensio;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 
 /**
  * @Rest\Route("/user")
  */
-class UserController
+class UserController extends AbstractFOSRestController
 {
     /**
      * @Rest\Get("/list")
@@ -57,7 +64,7 @@ class UserController
 
     /**
      * @Rest\Get("/{id}")
-     * @Rest\View()
+     * @Rest\View(serializerGroups={"Default", "details"})
      *
      * @param User $user
      * @return User
@@ -105,5 +112,30 @@ class UserController
         $userService->delete($user);
 
         return View::create(null, Response::HTTP_NO_CONTENT);
+    }
+
+    /**
+     * @Rest\Post("/{id}/with-form")
+     * @Rest\View(serializerGroups={"Default", "details"})
+     *
+     * @param User $user
+     * @param Request $request
+     * @param EntityManagerInterface $entityManager
+     * @return View
+     */
+    public function updateWithForm(
+        User $user,
+        Request $request,
+        EntityManagerInterface $entityManager
+    ): View {
+        $editForm = $this->createForm(UserType::class, $user);
+        $editForm->submit(json_decode($request->getContent() ?: '{}', true));
+
+        if ($editForm->isSubmitted() && $editForm->isValid()) {
+            $entityManager->persist($user);
+            $entityManager->flush();
+        }
+
+        return View::create($user, Response::HTTP_OK);
     }
 }
